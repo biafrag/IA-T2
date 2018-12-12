@@ -38,7 +38,7 @@ class _CarEvaluation(object):
 
         # Separando os dados para teste e os dados para treinamento do método usando 80% treino/20% teste,
         # os dados são separados de forma aleatória pela função "train_test_split"
-        self.X_Train, self.X_Test, self.Y_Train, self.Y_Test = train_test_split(X, Y, test_size=0.25)
+        self.X_Train, self.X_Test, self.Y_Train, self.Y_Test = train_test_split(X, Y, test_size=0.2)
 
     def printHead(self):
         print("dataframe.head: ", self.dataframe.head())

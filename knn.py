@@ -4,6 +4,8 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
+import time
+
 class Knn(object):
 	
 	def __init__(self):
@@ -17,18 +19,20 @@ class Knn(object):
 		# Criando a Knn, testando o melhor numero de vizinhos para testar
 		bestK = 1
 		bestAccuracy = 0
-		for i in range(3,47,2):
+		for i in range(3,13,2):
+			start = time.time()
 			#criando o knn
-			knn = KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski', metric_params=None, n_jobs=1, n_neighbors=i, p=2, weights='uniform')
+			knn = KNeighborsClassifier(n_neighbors=i)
 			# passando os dados de treino para o knn
 			knn.fit(self.problem.X_Train, self.problem.Y_Train)
-
+			print('Tempo de treino para k = {}: {} s'.format(i,time.time()-start))
 			# Realizando a classificação com dados não usados no treino (dados de teste)
 			predictions = knn.predict(self.problem.X_Test)
-
+			start = time.time()
 			#comparando os resultados entre a classificação 'real' e o que a knn classificou para os casos de teste
 			score = accuracy_score(self.problem.Y_Test, predictions)
-			#print('score', score,' k ', i)
+			print('Tempo de classificaçao dos testes para k = {}: {} s'.format(i,time.time()-start))
+			print('score', score,' k ', i)
 			if score > bestAccuracy:
 				bestAccuracy = score
 				bestK = i

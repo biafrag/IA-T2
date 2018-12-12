@@ -38,7 +38,7 @@ class _CarEvaluation(object):
 
         # Separando os dados para teste e os dados para treinamento do método usando 80% treino/20% teste,
         # os dados são separados de forma aleatória pela função "train_test_split"
-        self.X_Train, self.X_Test, self.Y_Train, self.Y_Test = train_test_split(X, Y, test_size=0.2)
+        self.X_Train, self.X_Test, self.Y_Train, self.Y_Test = train_test_split(X, Y, test_size=0.25)
 
     def printHead(self):
         print("dataframe.head: ", self.dataframe.head())
@@ -49,6 +49,9 @@ class _CarEvaluation(object):
         plt.hist((self.dataframe.classes))
         # Histograma de cada atributo do problema
         self.dataframe.hist()
+        k = [3,5,7,9,11]
+        y = [0.9050925925925926,0.9050925925925926,0.9606481481481481,0.9467592592592593,0.9259259259259259]
+        plt.plot(k,y)
         plt.show()
 
 # funçao que deve ser chamada para criar a classe,

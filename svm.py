@@ -7,6 +7,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 import carEvaluationProblem as p
 
+import time
+
 class SVM(object):	
     def __init__(self):
         self.accuracy = 0
@@ -16,6 +18,7 @@ class SVM(object):
         self.dataset = self.dataframe.values
         
     # Fazendo a standartização dos dados ler o site a seguir para explicação:
+    # Obtivemos resultados melhores ulizando esse passo
     #  https://towardsdatascience.com/effect-of-feature-standardization-on-linear-support-vector-machines-13213765b812
     def standartizeTrainData(self):   
         sc = StandardScaler()
@@ -31,17 +34,22 @@ class SVM(object):
         return data_std
 
     def trainSVM(self):
+        start = time.time()
         X_test_std,X_train_std = self.standartizeTrainData()
         # https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html#sphx-glr-auto-examples-svm-plot-rbf-parameters-py
         # kernel é o tipo de formulação matematica do svm, ebf é "Radial Basis Function"
         # exp( -gamma * (|| x - x' ||)^2 )
         # O parametro C quanto 
-        self.svc = svm.SVC(kernel='rbf', C=5,gamma=0.7).fit(X_train_std,self.problem.Y_Train)
+        self.svc = svm.SVC(kernel='rbf', C = 7,gamma = 0.4)
+        self.svc.fit(X_train_std,self.problem.Y_Train)
+        print('tempo de treino: {}s'.format(time.time()-start))
+        start = time.time()
         s_pred=self.svc.predict(X_test_std)
+        print('tempo de classificação dos casos de teste: {}s'.format(time.time()-start))
         self.accuracy = accuracy_score(self.problem.Y_Test,s_pred)
         self.errosSum = (self.problem.Y_Test!=s_pred).sum()
-        print(self.problem.Y_Test)
-        print(self.problem.X_Test)
+        
+        
 
     def printResults(self):
         # imprimindo o numero de elementos classificados errados
